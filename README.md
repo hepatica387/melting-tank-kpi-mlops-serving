@@ -51,4 +51,22 @@ python -m uvicorn app.main:app --reload
 python scripts/smoke_request.py
 ```
 
+## 주요 변경사항
+- S3 승인 모델 번들 동기화 및 게시 로직 추가
+- ECR, ECS Fargate, ALB, IAM 구성을 위한 CloudFormation 템플릿 추가
+- GitHub Actions OIDC 기반 CI/CD 워크플로 구성
+- Ruff, pytest, Docker 이미지 빌드 자동 검증 추가
+- ECS 배포 후 `/healthz`, `/readyz` 상태 확인 구성
+- v4 브랜치 전략과 AWS 배포 절차 문서화
+## 검증 결과
+- `python -m ruff check .` 통과
+- `python -m pytest` 통과
+- GitHub Actions에서 Docker 이미지 빌드 검증 구성
+- CloudFormation 템플릿 구문 검증
+## 참고사항
+- 운영 AWS 배포에서는 `ALLOW_UNAPPROVED_MODEL=false`를 유지합니다.
+- KPI 승인 모델 번들이 S3에 등록되어야 `/readyz`가 정상 응답합니다.
+- AWS Access Key를 저장하지 않고 GitHub Actions OIDC 인증을 사용합니다.
+
+
 세부 내용은 [v2-v3 연결](docs/01_v2_v3_연결.md)과 [실행 절차](docs/02_실행_절차.md)를 참고합니다.
